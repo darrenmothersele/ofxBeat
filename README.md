@@ -6,8 +6,8 @@ Cyril language for live coded visuals.
 
 ## Provenance
 
-This builds on the beat tracking code in [https://github.com/zenwerk/ofxBeatTracking](ofxBeatTracking), which itself was based on C++ code from Dominic Mazzoni, which was based on an free FFT implementation in Fortan. Further details
-are in the comments [https://github.com/zenwerk/ofxBeatTracking/blob/master/fft.cpp](here).
+This builds on the beat tracking code in [ofxBeatTracking](https://github.com/zenwerk/ofxBeatTracking), which itself was based on C++ code from Dominic Mazzoni, which was based on an free FFT implementation in Fortan. Further details
+are in the comments [here](https://github.com/zenwerk/ofxBeatTracking/blob/master/fft.cpp).
 
 ## Usage
 
