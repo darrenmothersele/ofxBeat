@@ -17,6 +17,7 @@ of ofxBeat, for example:
     class testApp : public ofBaseApp{
 
       ofxBeat beat;
+      void audioReceived(float*, int, int);
 
       // ... rest of your app class ...
     };
@@ -27,11 +28,17 @@ Then initialize the sound stream in your app `setup()` method, for example:
       ofSoundStreamSetup(0, 1, this, 44100, beat.getBufferSize(), 4);
     }
 
+Add the following method to pass on audio events to the FFT processor:
+
+    void testApp::audioReceived(float* input, int bufferSize, int nChannels) {
+      beat.audioReceived(input, bufferSize, nChannels);
+    }
+
 Add a call to the update method to your app's update method to perform the
 fft processing on recevied audio, for example:
 
     void testApp::update() {
-      beat.update((*_state.sym)[REG_TIME]);
+      beat.update(ofGetElapsedTimeMillis());
     }
 
 You can then use the separate bands to get information in the current beat

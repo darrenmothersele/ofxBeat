@@ -21,7 +21,7 @@
 #define HIHAT_BAND 2
 
 class ofxBeat {
-  
+
   float fftSmoothed[FFT_BINS];
   float averageEnergy[FFT_SUBBANDS];
   float fftVariance[FFT_SUBBANDS];
@@ -32,28 +32,28 @@ class ofxBeat {
   int historyPos;
   bool fftInit;
   ofSoundPlayer soundtrack;
-  
+
   float fftSubbands[FFT_SUBBANDS];
   int bandTimes[3];
   int beatSizes[3];
-  int beats[3];
-  
+  float beats[3];
+
   int buffer_size;
   int fft_size;
-  
+
   float *magnitude, *phase, *power, *audio_input;
   float *magnitude_average, *magnitude_average_snapshot;
-  
+
   bool bDetectBeat;
-  
+
   fft myfft;
-  
+
   void updateBand(bool,int,int);
   void updateFFT();
-  
+
 public:
   ofxBeat();
-  
+
   void enableBeatDetect() {bDetectBeat = true;}
   void disableBeatDetect() {bDetectBeat = false;}
   bool isBeat(int subband);
@@ -62,17 +62,17 @@ public:
   bool isHat();
   bool isBeatRange(int low, int high, int threshold);
   void setBeatValue(float bv) {beatValue = bv;}
-  
+
   void update(int);
   void audioReceived(float*, int, int);
-  
+
   float kick();
   float snare();
   float hihat();
   float getMagnitude();
-  
+
   float getBand(int);
-  
+
   int getBufferSize();
 };
 
