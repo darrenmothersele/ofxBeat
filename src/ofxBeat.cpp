@@ -147,7 +147,7 @@ int ofxBeat::getBufferSize() {
 void ofxBeat::update(int _t) {
   updateFFT();
   updateBand(isKick(), KICK_BAND, _t);
-  updateBand(isSnare(), KICK_BAND, _t);
+  updateBand(isSnare(), SNARE_BAND, _t);
   updateBand(isHat(), HIHAT_BAND, _t);
 }
 
