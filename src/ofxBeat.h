@@ -9,7 +9,10 @@
 #ifndef __Cyril__ofxBeat__
 #define __Cyril__ofxBeat__
 
+#ifndef OFX_BEAT_STANDALONE
 #include "ofMain.h"
+#endif
+
 #include "fft.h"
 
 #define FFT_BINS 512
@@ -19,6 +22,9 @@
 #define KICK_BAND 0
 #define SNARE_BAND 1
 #define HIHAT_BAND 2
+
+#define DFLT_BUFFER_SIZE 1024
+#define DFLT_FFT_SIZE 512
 
 class ofxBeat {
 
@@ -31,7 +37,9 @@ class ofxBeat {
   float beatValue;
   int historyPos;
   bool fftInit;
+#ifndef OFX_BEAT_STANDALONE
   ofSoundPlayer soundtrack;
+#endif
 
   float fftSubbands[FFT_SUBBANDS];
   int bandTimes[3];
@@ -52,7 +60,8 @@ class ofxBeat {
   void updateFFT();
 
 public:
-  ofxBeat();
+  ofxBeat(size_t buffer_size, size_t fft_size);
+  ofxBeat() : ofxBeat(DFLT_BUFFER_SIZE, DFLT_FFT_SIZE) { }
 
   void enableBeatDetect() {bDetectBeat = true;}
   void disableBeatDetect() {bDetectBeat = false;}

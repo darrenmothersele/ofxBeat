@@ -6,9 +6,17 @@
 //
 //
 
+#ifdef OFX_BEAT_STANDALONE
+#include <cmath>
+#include <cstring>
+#include <cfloat>
+#include <algorithm>
+#endif
+
 #include "ofxBeat.h"
 
-ofxBeat::ofxBeat() : buffer_size(1024), fft_size(512) {
+ofxBeat::ofxBeat(size_t buffer_size, size_t fft_size)
+: buffer_size(buffer_size), fft_size(fft_size) {
   bandTimes[KICK_BAND] = 0;
   bandTimes[SNARE_BAND] = 0;
   bandTimes[HIHAT_BAND] = 0;
@@ -16,8 +24,6 @@ ofxBeat::ofxBeat() : buffer_size(1024), fft_size(512) {
   beatSizes[SNARE_BAND] = 0;
   beatSizes[HIHAT_BAND] = 0;
   
-  int fft_size=512;
-  int buffer_size = 1024;
   for(int i = 0; i < fft_size; i++)
     fftSmoothed[i] = 0;
   
@@ -123,6 +129,29 @@ float ofxBeat::hihat() {
   return beats[HIHAT_BAND];
 }
 
+#ifdef OFX_BEAT_STANDALONE
+float ofMap(float value, float inputMin, float inputMax, float outputMin, float outputMax, bool clamp) {
+
+	if (fabs(inputMin - inputMax) < FLT_EPSILON){
+		return outputMin;
+	} else {
+		float outVal = ((value - inputMin) / (inputMax - inputMin) * (outputMax - outputMin) + outputMin);
+	
+		if( clamp ){
+			if(outputMax < outputMin){
+				if( outVal < outputMax )outVal = outputMax;
+				else if( outVal > outputMin )outVal = outputMin;
+			}else{
+				if( outVal > outputMax )outVal = outputMax;
+				else if( outVal < outputMin )outVal = outputMin;
+			}
+		}
+		return outVal;
+	}
+
+}
+#endif
+
 void ofxBeat::updateBand(bool a, int b, int t) {
   if (a) {
     beats[b] = 1;
@@ -132,7 +161,11 @@ void ofxBeat::updateBand(bool a, int b, int t) {
   else {
     int span = t - bandTimes[b];
     if (span < beatSizes[b] && beatSizes[b] > 0) {
+#ifdef OFX_BEAT_STANDALONE
+      beats[b] = ofMap(span, 0, beatSizes[b], 1, 0, false);
+#else
       beats[b] = ofMap(span, 0, beatSizes[b], 1, 0);
+#endif
     }
     else {
       beats[b] = 0;
