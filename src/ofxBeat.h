@@ -9,7 +9,10 @@
 #ifndef __Cyril__ofxBeat__
 #define __Cyril__ofxBeat__
 
+#ifndef OFX_BEAT_STANDALONE
 #include "ofMain.h"
+#endif
+
 #include "fft.h"
 
 #define FFT_BINS 512
@@ -34,7 +37,9 @@ class ofxBeat {
   float beatValue;
   int historyPos;
   bool fftInit;
+#ifndef OFX_BEAT_STANDALONE
   ofSoundPlayer soundtrack;
+#endif
 
   float fftSubbands[FFT_SUBBANDS];
   int bandTimes[3];
