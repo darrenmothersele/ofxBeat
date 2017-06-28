@@ -151,8 +151,16 @@ void ofxBeat::update(int _t) {
   updateBand(isHat(), HIHAT_BAND, _t);
 }
 
-void ofxBeat::audioReceived(float* input, int bufferSize, int nChannels) {
+void ofxBeat::audioReceived(const float* const input, int bufferSize, int nChannels) {
+    audioFill(input, bufferSize);
+    audioProcess(bufferSize);
+}
+
+void ofxBeat::audioFill(const float* const input, int bufferSize) {
   memcpy(audio_input, input, sizeof(float) * bufferSize);
+}
+
+void ofxBeat::audioProcess(int bufferSize) {
   float avg_power = 0.0f;
   myfft.powerSpectrum(0, (int)fft_size, audio_input, buffer_size, magnitude, phase, power, &avg_power);
   

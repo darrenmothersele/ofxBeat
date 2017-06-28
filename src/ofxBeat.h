@@ -64,7 +64,9 @@ public:
   void setBeatValue(float bv) {beatValue = bv;}
 
   void update(int);
-  void audioReceived(float*, int, int);
+  void audioReceived(const float *const, int, int);
+  void audioFill(const float *const, int);
+  void audioProcess(int);
 
   float kick();
   float snare();
