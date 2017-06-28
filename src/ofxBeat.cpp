@@ -8,7 +8,8 @@
 
 #include "ofxBeat.h"
 
-ofxBeat::ofxBeat() : buffer_size(1024), fft_size(512) {
+ofxBeat::ofxBeat(size_t buffer_size, size_t fft_size)
+: buffer_size(buffer_size), fft_size(fft_size) {
   bandTimes[KICK_BAND] = 0;
   bandTimes[SNARE_BAND] = 0;
   bandTimes[HIHAT_BAND] = 0;
@@ -16,8 +17,6 @@ ofxBeat::ofxBeat() : buffer_size(1024), fft_size(512) {
   beatSizes[SNARE_BAND] = 0;
   beatSizes[HIHAT_BAND] = 0;
   
-  int fft_size=512;
-  int buffer_size = 1024;
   for(int i = 0; i < fft_size; i++)
     fftSmoothed[i] = 0;
   
